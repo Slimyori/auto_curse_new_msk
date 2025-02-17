@@ -8,7 +8,7 @@ import time
 @pytest.mark.usefixtures('time_class')
 class TestTimer:
 
-	def test(self):
+	def test_vwesdr(self):
 		pass
 
 	@pytest.mark.usefixtures('time_test')
