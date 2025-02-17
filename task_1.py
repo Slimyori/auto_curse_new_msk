@@ -21,9 +21,10 @@ import random
 def name_gen():
 	randomikulus = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
 					"u", "v", "w", "x", "y", "z"]
-	new_slovo_one = ""
-	new_slovo_dva = ""
+
 	while True: #У нас в вебинаре не было показано как сделать бесконечный генератор, подсмотрел на скилбокс как сделать конкретно бесконечную последовательность https://skillbox.ru/media/code/generatory_python_chto_eto_takoe_i_zachem_oni_nuzhny/
+		new_slovo_one = ""
+		new_slovo_dva = ""
 		for i in range(random.randrange(1, 16)): #C помощью in range создаем случайную длинну слова
 			new_slovo_one += random.choice(randomikulus)# Наполняем слово буквами
 
@@ -31,8 +32,7 @@ def name_gen():
 			new_slovo_dva += random.choice(randomikulus)
 
 		yield f"{new_slovo_one} {new_slovo_dva}"# Возвращаем строку с именем слепленным из слова один и слова два
-		new_slovo_one = ""
-		new_slovo_dva = ""# Обнуляем строки что бы они не перенаполнялись
+
 
 
 kvant = name_gen() #наделяем переменную строкой которую возвращает yield в генераторе name_gen
