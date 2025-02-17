@@ -3,4 +3,20 @@
 # 2) Фикстуру для конкретного теста и используйте её не для всех тестов. Например, время выполнения теста.
 
 import pytest
+import time
+
+@pytest.mark.usefixtures('time_class')
+class TestTimer:
+
+	def test(self):
+		pass
+
+	@pytest.mark.usefixtures('time_test')
+	def test_with_fix(self):
+		val = 0
+		for i in range (110):
+			val += i
+
+
+
 

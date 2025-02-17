@@ -15,3 +15,23 @@ def all_division(*arg1):
     for i in arg1[1:]:
         division /= i
     return division
+
+@pytest.mark.smoke
+def test_01():
+    assert all_division(2, 2) == 1
+@pytest.mark.acceptance
+def test_02():
+    assert round(all_division(975132, 123452), 2) == 7.9
+@pytest.mark.negative
+@pytest.mark.acceptance
+def test_03():
+    assert all_division(-8, -4) == 2
+@pytest.mark.acceptance
+@pytest.mark.negative
+def test_04():
+    assert all_division(19) == 19
+@pytest.mark.acceptance
+@pytest.mark.negative
+def test_05():
+    with pytest.raises(ZeroDivisionError):
+        all_division(0, 0)
