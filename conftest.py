@@ -4,7 +4,7 @@ import datetime
 
 @pytest.fixture(scope='class')
 def time_class(request):
-    print(f'Время начала выполнения тестов в классе {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}')
+    print(f'Время начала выполнения тестов в классе {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}') #как работать с таймером украл отсюда https://docs-python.ru/standart-library/modul-time-python/funktsija-time-modulja-time/
     yield
     print(f'Время окончания выполнения тестов в классе {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}')
 
