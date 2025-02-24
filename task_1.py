@@ -1,43 +1,84 @@
-# Напишите генератор generate_random_name(), используя модуль random,
-# который генерирует два слова из латинских букв от 1 до 15 символов, разделенных пробелами
-# Например при исполнении следующего кода:
-# gen = generate_random_name()
-# print(next(gen))
-# print(next(gen))
-# print(next(gen))
-# print(next(gen))
-#
-# Выводится:
-# tahxmckzexgdyt ocapwy
-# dxqebbukr jg
-# aym jpvezfqexlv
-# iuy qnikkgxvxfxtxv
+# Перейти на https://sbis.ru/
+# Перейти в раздел "Контакты"
+# Найти баннер Тензор, кликнуть по нему
+# Перейти на https://tensor.ru/
+# Проверить, что есть блок новости "Сила в людях"
+# Перейдите в этом блоке в "Подробнее" и убедитесь, что открывается https://tensor.ru/about
+# Для сдачи задания пришлите код и запись с экрана прохождения теста
 
-# new_slovo = []
-# new_slovo.append(random.choice(randomikulus))
-import random
-
-# Генератор name_gen создает строку из двух переменных, слово один и слово два, с помощью форматированной строки добавляем пробел для условия
-def name_gen():
-	randomikulus = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
-					"u", "v", "w", "x", "y", "z"]
-
-	while True: #У нас в вебинаре не было показано как сделать бесконечный генератор, подсмотрел на скилбокс как сделать конкретно бесконечную последовательность https://skillbox.ru/media/code/generatory_python_chto_eto_takoe_i_zachem_oni_nuzhny/
-		new_slovo_one = ""
-		new_slovo_dva = ""
-		for i in range(random.randrange(1, 16)): #C помощью in range создаем случайную длинну слова
-			new_slovo_one += random.choice(randomikulus)# Наполняем слово буквами
-
-		for i in range(random.randrange(1, 16)):# Повторяем для второго слова
-			new_slovo_dva += random.choice(randomikulus)
-
-		yield f"{new_slovo_one} {new_slovo_dva}"# Возвращаем строку с именем слепленным из слова один и слова два
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver import Keys
 
 
 
-kvant = name_gen() #наделяем переменную строкой которую возвращает yield в генераторе name_gen
-print(next(kvant))
-print(next(kvant))
-print(next(kvant))
-print(next(kvant)) #Пример работы программы
+sbis_site = "https://test.saby.ru/"
+sbis_title = "Saby — экосистема для управления бизнесом"
 
+sbis_contacts_site = 'https://test.saby.ru/contacts/66-sverdlovskaya-oblast?tab=clients'
+sbis_contacts_title = 'Saby Контакты — Свердловская область'
+
+tensor_site = 'https://tensor.ru/'
+tensor_title = "Тензор — IT-компания"
+
+tensor_site_about = 'https://tensor.ru/about'
+tensor_site_about_title = 'О компании | Тензор — IT-компания'
+
+driver = webdriver.Chrome()
+
+#Переменные для сравнения
+contacts_chek = "Контакты"
+tensor_chek = 'Сила в людях'
+tensor_button_text = 'Подробнее'
+
+try:
+	driver.get(sbis_site) #Открываем Сбис.ру (Сейчас саби.ру)
+	assert driver.current_url == sbis_site, "Не верный сайт"
+	time.sleep(5)
+	assert driver.title == sbis_title, "Не верный заголовок"
+
+	#Работа с вкладкой Контакты, в текстовом файле 11 вебинара предлагают через хреф искать, тогда в подвале есть сразу вкладка и переход на страницу, в моем случае кликаем в выпадающий список
+	contacts = driver.find_element(By.CSS_SELECTOR, '.sbisru-Header__menu-link.sbis_ru-Header__menu-link.sbisru-Header__menu-link--hover')
+	assert contacts.text == contacts_chek
+	contacts.click()
+	time.sleep(5)
+
+	contacts_next = driver.find_element(By.CSS_SELECTOR, ".sbisru-Header-ContactsMenu__arrow-icon")
+	contacts_next.click()
+
+	#Работа с сайтом контактов на саби.ру
+	time.sleep(5)
+	assert driver.title == sbis_contacts_title, "Не верный заголовок"
+	assert driver.current_url == sbis_contacts_site, "Не верный сайт"
+	time.sleep(5)
+	tensor_next = driver.find_element(By.CSS_SELECTOR, '[alt="Разработчик системы Saby — компания «Тензор»"]')
+	tensor_next.click()
+	time.sleep(5)
+
+	#Работа с тензор ру
+	handles = driver.window_handles
+	driver.switch_to.window(handles[1])
+	time.sleep(2)
+	assert driver.title == tensor_title, "Не верный заголовок"
+	assert driver.current_url == tensor_site, "Не верный сайт"
+	time.sleep(5)
+	news_text = driver.find_element(By.CSS_SELECTOR, ".tensor_ru-Index__block4-content.tensor_ru-Index__card") #Блок новости
+	assert tensor_chek in news_text.text, 'Не нашли новость Сила в людях' # Проверяем входил ли Сила в людях в блок новости
+
+	news_next = driver.find_element(By.CSS_SELECTOR, ".tensor_ru-Index__block4-content.tensor_ru-Index__card  .tensor_ru-link")
+	assert news_next.text == tensor_button_text
+	news_next.click()
+	time.sleep(5)
+	#Проверки на тензор ру О компании
+
+	assert driver.title == tensor_site_about_title, "Не верный заголовок"
+	assert driver.current_url == tensor_site_about, "Не верный сайт"
+	time.sleep(5)
+
+
+
+
+
+finally:
+	driver.quit()
