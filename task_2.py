@@ -27,10 +27,10 @@ try:
 	time.sleep(5)
 	assert driver.current_url == online_site, "Не верный сайт"
 	assert driver.title == online_title, "Не верный заголовок"
-	login = driver.find_element(By.CSS_SELECTOR,'[data-qa="auth-AdaptiveLoginForm__login"] [data-qa="controls-Render__field"] [name="ws-input_2025-02-25"]')
+	login = driver.find_element(By.CSS_SELECTOR,'[data-qa="auth-AdaptiveLoginForm__login"] .controls-Field')
 	login.send_keys(user_login, Keys.ENTER)
 
-	password = driver.find_element(By.CSS_SELECTOR, '[data-qa="auth-AdaptiveLoginForm__password"] [name="ws-input_2025-02-25"] ')
+	password = driver.find_element(By.CSS_SELECTOR, '[data-qa="auth-AdaptiveLoginForm__password"] .controls-Field')
 	password.send_keys(user_password, Keys.ENTER)
 	time.sleep(6)
 
