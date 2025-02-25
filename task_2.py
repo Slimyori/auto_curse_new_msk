@@ -27,20 +27,18 @@ try:
 	time.sleep(5)
 	assert driver.current_url == online_site, "Не верный сайт"
 	assert driver.title == online_title, "Не верный заголовок"
-	login = driver.find_element(By.CSS_SELECTOR, '.controls-Field.js-controls-Field.controls-InputBase__nativeField.controls-InputBase__nativeField_caretFilled')
-	login.click()
+	login = driver.find_element(By.CSS_SELECTOR,'[data-qa="auth-AdaptiveLoginForm__login"] [data-qa="controls-Render__field"] [name="ws-input_2025-02-25"]')
 	login.send_keys(user_login, Keys.ENTER)
-	#controls-Field js-controls-Field controls-InputBase__nativeField controls-Password__nativeField_caretFilled controls-Password__nativeField_caretFilled_theme_default controls-InputBase__nativeField_hideCustomPlaceholder
-	password = driver.find_element(By.CSS_SELECTOR, '.controls-Password__nativeField_caretFilled_theme_default')
-	time.sleep(3)
+
+	password = driver.find_element(By.CSS_SELECTOR, '[data-qa="auth-AdaptiveLoginForm__password"] [name="ws-input_2025-02-25"] ')
 	password.send_keys(user_password, Keys.ENTER)
-	time.sleep(5)
+	time.sleep(6)
 
 	#С разводящей онлайн переходим в контакты
 	reeestr = driver.find_element(By.XPATH, "//*[contains(text(),'Контакты')]")
 	reeestr.click()
 	time.sleep(5)
-	reestr_click = driver.find_element(By.CSS_SELECTOR, '.NavigationPanels-SubMenu__headTitle.NavigationPanels-SubMenu__title-with-separator.NavigationPanels-Accordion__prevent-default')
+	reestr_click = driver.find_element(By.CSS_SELECTOR, '.NavigationPanels-SubMenu__headTitle')
 	reestr_click.click()
 	time.sleep(5)
 
@@ -49,14 +47,15 @@ try:
 	plus_message = driver.find_element(By.CSS_SELECTOR, '.controls-BaseButton__icon.controls-icon_size-m.controls-icon.icon-RoundPlus')
 	plus_message.click()
 	time.sleep(5)
-	catcher = driver.find_element(By.CSS_SELECTOR, '.controls-TileView__item.controls-ListView__itemV.js-controls-ListView__editingTarget.controls-TileView__item_unscalable.ws-flex-grow-1.controls-TileView__item_spacingLeft_s')
+	catcher = driver.find_element(By.CSS_SELECTOR, '[data-qa="tile-container"] [title="89407968838940796883"]')
 	actions = ActionChains(driver)
-	actions.move_to_element(catcher).perform()
-	actions.context_click(catcher).perform()
+	actions.move_to_element(catcher)
+	actions.context_click(catcher)
+	actions.perform()
 	catcher.click()
 	time.sleep(5)
 
-	#Создаем, отправляем и переоткрываем сообщение
+	#Создаем, отправляем сообщение
 	message_stroke = driver.find_element(By.CSS_SELECTOR, '.textEditor_Viewer__Paragraph.textEditor_Viewer__Paragraph_empty')
 	message_stroke.click()
 	message_stroke.send_keys(sms_text)
@@ -64,7 +63,9 @@ try:
 	sender_btn = driver.find_element(By.CSS_SELECTOR, '.controls-BaseButton__icon.controls-icon_size-s.controls-icon.icon-BtArrow')
 	sender_btn.click()
 	time.sleep(5)
-	message_in_row = driver.find_element(By.CSS_SELECTOR, '.msg-entity-text.msg-entity_font_croppless.richEditor_richContentRender_fontSize-m_theme-default.controls_RichEditor_theme-default.richEditor_richContentRender_theme-default')
+
+	#роверяем сообщение в реестре
+	message_in_row = driver.find_element(By.CSS_SELECTOR, '.msg-entity-text')
 	assert message_in_row.text == sms_text
 	message_in_row.click()
 	time.sleep(2)

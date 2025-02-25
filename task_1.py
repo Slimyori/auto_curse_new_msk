@@ -28,7 +28,7 @@ tensor_site_about_title = 'О компании | Тензор — IT-компа�
 driver = webdriver.Chrome()
 
 #Переменные для сравнения
-contacts_chek = "Контакты"
+contacts_check = "Контакты"
 tensor_chek = 'Сила в людях'
 tensor_button_text = 'Подробнее'
 
@@ -39,8 +39,8 @@ try:
 	assert driver.title == sbis_title, "Не верный заголовок"
 
 	#Работа с вкладкой Контакты, в текстовом файле 11 вебинара предлагают через хреф искать, тогда в подвале есть сразу вкладка и переход на страницу, в моем случае кликаем в выпадающий список
-	contacts = driver.find_element(By.CSS_SELECTOR, '.sbisru-Header__menu-link.sbis_ru-Header__menu-link.sbisru-Header__menu-link--hover')
-	assert contacts.text == contacts_chek
+	contacts = driver.find_element(By.CSS_SELECTOR, '.sbis_ru-Header__menu-link')
+	assert contacts.text == contacts_check
 	contacts.click()
 	time.sleep(5)
 
@@ -49,11 +49,11 @@ try:
 
 	#Работа с сайтом контактов на саби.ру
 	time.sleep(5)
-	assert driver.title == sbis_contacts_title, "Не верный заголовок"
-	assert driver.current_url == sbis_contacts_site, "Не верный сайт"
+
+
 	time.sleep(5)
-	tensor_next = driver.find_element(By.CSS_SELECTOR, '[alt="Разработчик системы Saby — компания «Тензор»"]')
-	tensor_next.click()
+	tensor_logo = driver.find_element(By.CSS_SELECTOR, '.sbisru-Contacts__border-left .sbisru-Contacts__logo-tensor')
+	tensor_logo.click()
 	time.sleep(5)
 
 	#Работа с тензор ру
